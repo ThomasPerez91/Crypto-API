@@ -1,0 +1,34 @@
+services:
+  test:
+    container_name: test
+    restart: always
+    build:
+      context: .
+    environment:
+      - DB_HOST=${DB_HOST}
+      - HOST=${HOST}
+      - NODE_ENV=production
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${PORT}:3333
+  
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+    ports:
+      - ${DB_PORT}:5432
+
+volumes:
+  postgres_volume:
+    name: postgres_test
