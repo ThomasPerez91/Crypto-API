@@ -24,7 +24,7 @@ ADD . .
 RUN node ace build
 
 # Production stage
-FROM base
+FROM production-deps
 
 ENV NODE_ENV=production
 ENV LOG_LEVEL=debug

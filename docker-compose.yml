@@ -1,6 +1,6 @@
 services:
-  test:
-    container_name: test
+  crypto-api:
+    container_name: crypto-api
     restart: always
     build:
       context: .
@@ -15,7 +15,7 @@ services:
         condition: service_healthy
     ports:
       - ${PORT}:3333
-  
+
   postgres:
     container_name: postgres
     image: postgres:16
@@ -25,10 +25,10 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
     ports:
       - ${DB_PORT}:5432
 
 volumes:
   postgres_volume:
-    name: postgres_test
+    name: postgres_volume
